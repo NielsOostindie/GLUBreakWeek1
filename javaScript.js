@@ -1,17 +1,29 @@
 // Model
-let todos = [{
-    title: 'Get groceries',
-    dueDate: '2022-10-04',
-    id: 'id1'
-}, {
-    title: 'Wash car',
-    dueDate: '2022-11-04',
-    id: 'id2'
-}, {
-    title: 'Make dinner',
-    dueDate: '2022-12-04',
-    id: 'id3'
-}];
+// If localstorage has a todos array, then use it
+// otherwise use the dfefault array
+let todos;
+
+// Retrieve localstorage
+const savedTodos = JSON.parse(localStorage.getItem('todos'));
+// Check if it's an array
+if (Array.isArray(savedTodos)) {
+    todos = savedTodos; 
+} else {
+    todos = [{
+        title: 'Get groceries',
+        dueDate: '2022-10-04',
+        id: 'id1'
+    }, {
+        title: 'Wash car',
+        dueDate: '2022-11-04',
+        id: 'id2'
+    }, {
+        title: 'Make dinner',
+        dueDate: '2022-12-04',
+        id: 'id3'
+    }];
+}
+
 render();
 
 //Creates a todo
@@ -23,7 +35,7 @@ function createTodo(title, dueDate ){
         dueDate: dueDate,
         id: id
     });
-
+saveTodos();
     // html
 }
 // Deletes a todo
@@ -35,6 +47,11 @@ function removeTodo(idToDelete){
             return true;
         }     
      });
+     saveTodos();
+}
+
+function saveTodos(){
+    localStorage.setItem('todo', JSON.stringify(todos));
 }
 
 // Controller
